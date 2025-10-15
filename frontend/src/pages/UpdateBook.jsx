@@ -13,10 +13,16 @@ const UpdateBook = () => {
   const Navigate = useNavigate();
   const { id } = useParams();
 
+  // Update the handleSubmit function:
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put("http://localhost:4000/update-book/" + id, book);
+      const token = localStorage.getItem("token");
+      await axios.put("http://localhost:4000/books/update/" + id, book, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       Navigate("/");
     } catch (error) {
       console.log("error while updating a book", error);
